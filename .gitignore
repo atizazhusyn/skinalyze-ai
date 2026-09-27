@@ -1,0 +1,21 @@
+# Python
+Backend_server/venv/
+**/__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# Node / Expo
+Main_Frontend/node_modules/
+Main_Frontend/.expo/
+Main_Frontend/dist/
+Main_Frontend/web-build/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db

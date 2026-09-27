@@ -1,0 +1,113 @@
+// Updated Firebase Security Rules for Skin Analysis App
+// Copy and paste these rules into your Firebase Console > Firestore Database > Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the resource
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Authentication rules - users can only access their own data
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+      
+      // User profile data
+      match /profile/{document} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // Patient monitoring data - direct patient data entries
+      match /patientData/{document} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // AI analysis data - stored AI progress analysis
+      match /aiAnalysis/{document} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // User predictions - only the user can access their own predictions
+      match /predictions/{predictionId} {
+        allow read, write: if isOwner(userId);
+        
+        // Treatment data for each prediction
+        match /treatment/{treatmentId} {
+          allow read, write: if isOwner(userId);
+        }
+        
+        // Monitoring data for each prediction
+        match /monitoring/{monitoringId} {
+          allow read, write: if isOwner(userId);
+          
+          // Follow-up items for each monitoring session
+          match /items/{itemId} {
+            allow read, write: if isOwner(userId);
+          }
+        }
+      }
+      
+      // Additional monitoring collections for different monitoring types
+      match /monitoring/{monitoringId} {
+        allow read, write: if isOwner(userId);
+        
+        // Follow-up items for each monitoring session
+        match /items/{itemId} {
+          allow read, write: if isOwner(userId);
+        }
+      }
+    }
+    
+    // Analysis history - users can only access their own analysis history
+    match /analysisHistory/{document} {
+      allow read, write: if isAuthenticated() && request.auth.uid == resource.data.uid;
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.uid;
+    }
+    
+    // Feedback collection - users can only submit their own feedback
+    match /feedback/{userId}/items/{document} {
+      allow read, write: if isOwner(userId);
+    }
+    
+    // Global feedback collection (if needed for admin purposes)
+    match /feedback/{document} {
+      allow read, write: if isAuthenticated() && request.auth.uid == resource.data.uid;
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.uid;
+    }
+    
+    // Chat messages - users can only access their own chat history
+    match /chat/{userId}/messages/{document} {
+      allow read, write: if isOwner(userId);
+    }
+    
+    // Global chat collection (if needed)
+    match /chat/{document} {
+      allow read, write: if isAuthenticated() && request.auth.uid == resource.data.uid;
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.uid;
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// Additional Storage Rules (if you decide to use Firebase Storage in the future)
+// Note: Currently disabled as per requirements - only text data is stored
+/*
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false; // Deny all storage access
+    }
+  }
+}
+*/
