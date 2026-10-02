@@ -9,6 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { parseMarkdown } from '../lib/utils/markdown';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
+import { GEMINI_API_KEY, GEMINI_API_URL } from '../lib/config/gemini';
 
 // --- Types ---
 interface Prediction {
@@ -31,11 +32,6 @@ interface FollowUp {
   notes: string;
   createdAt: string;
 }
-
-// --- Configuration ---
-// Ideally invoke from env, but reusing existing key for consistency based on history.tsx
-const GEMINI_API_KEY = 'AIzaSyAl3q3-1eM9Y7zCilpiOBokXcRD4TZadoA';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 export default function PatientMonitoring() {
   const [viewMode, setViewMode] = useState<'list' | 'detail'>('list');

@@ -7,10 +7,7 @@ import { db } from '../lib/config/firebase';
 import { collection, query, where, getDocs, orderBy, addDoc, serverTimestamp } from 'firebase/firestore';
 import { Ionicons } from '@expo/vector-icons';
 import { parseMarkdown } from '../lib/utils/markdown';
-
-// Gemini API configuration
-const GEMINI_API_KEY = 'AIzaSyAl3q3-1eM9Y7zCilpiOBokXcRD4TZadoA'; // Replace with your actual API key
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+import { GEMINI_API_KEY, GEMINI_API_URL } from '../lib/config/gemini';
 
 interface PredictionHistory {
   id: string;

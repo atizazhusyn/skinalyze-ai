@@ -8,6 +8,7 @@ import { collection, addDoc, query, where, getDocs, orderBy, doc, setDoc, server
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
 import { parseMarkdown } from '../lib/utils/markdown';
+import { API_URL, GEMINI_API_KEY, GEMINI_API_URL } from '../lib/config/gemini';
 
 interface PredictionResult {
   prediction: string;
@@ -22,13 +23,6 @@ interface ExplainResult {
   confidence: number;
   heatmap_image: string; // base64 png
 }
-
-// Use your computer's local IP address here
-const API_URL = 'http://192.168.100.18:5000';
-
-// Gemini API configuration
-const GEMINI_API_KEY = 'AIzaSyAl3q3-1eM9Y7zCilpiOBokXcRD4TZadoA'; // Replace with your actual API key
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 export default function AnalyzeSkin() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);

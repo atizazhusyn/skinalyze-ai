@@ -60,19 +60,20 @@ The app uses Firebase for authentication and database. You need to:
 3. Create a Firestore database
 4. The configuration is already set in `lib/config/firebase.ts`
 
-### Step 4: Configure API URL
+### Step 4: Configure environment variables
 
-**IMPORTANT:** Update the backend server URL in `app/analyze.tsx`:
+Copy the example file and fill in your own values. Do not commit `.env`.
 
-```typescript
-const API_URL = 'http://YOUR_COMPUTER_IP:5000';
+```bash
+cp .env.example .env
 ```
 
-Replace `YOUR_COMPUTER_IP` with:
-- Your local IP address (e.g., `192.168.1.100`)
-- Find it using:
-  - **Windows**: `ipconfig` in command prompt
-  - **Mac/Linux**: `ifconfig` or `ip addr`
+```
+EXPO_PUBLIC_API_URL=http://YOUR_COMPUTER_IP:5000
+EXPO_PUBLIC_GEMINI_API_KEY=your_key_here
+```
+
+Use your computer's LAN address so a phone on the same Wi-Fi can reach the Flask server. On Windows, find it with `ipconfig`.
 
 ### Step 5: Start the Development Server
 

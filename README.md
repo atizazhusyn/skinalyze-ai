@@ -1,6 +1,6 @@
 # Skinalyze AI
 
-Skinalyze AI helps identify skin conditions from a photo, then explains the result, suggests treatment information, and tracks follow-up.
+Mobile app and API for classifying skin conditions from a photo. The model covers chickenpox, cowpox, hand-foot-and-mouth disease, measles, monkeypox, and healthy skin. A separate language-model step explains the result and drafts follow-up notes. This is a student research project, not a medical device.
 
 ## See it working
 
@@ -31,9 +31,23 @@ Skinalyze AI helps identify skin conditions from a photo, then explains the resu
 ### Feedback
 ![Feedback form for predictions, treatment, and monitoring](screenshots/feedback.png)
 
-## Project layout
+## What it does
 
-- `Main_Frontend` is the mobile app
-- `Backend_server` is the analysis API
+- Classifies a skin photo with an ensemble of five PyTorch models
+- Returns a class and a confidence score, plus a heatmap of the regions that influenced the result
+- Stores each signed-in user's history in Firebase
+- Tracks follow-up visits and can export a PDF report
+- Answers general dermatology questions through a chat screen
 
-Setup steps for the app are in [Main_Frontend/README.md](Main_Frontend/README.md).
+## Stack
+
+- React Native and Expo for the mobile app
+- Firebase Authentication and Firestore
+- Flask and PyTorch for the analysis API
+
+## Layout
+
+- `Main_Frontend` — mobile app. Setup is in [Main_Frontend/README.md](Main_Frontend/README.md).
+- `Backend_server` — analysis API. Setup is in [Backend_server/README.md](Backend_server/README.md).
+
+API keys stay in a local `.env` file. Copy `Main_Frontend/.env.example` and add your own Gemini key. Do not commit that file.

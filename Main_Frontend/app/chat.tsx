@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { parseMarkdown } from '../lib/utils/markdown';
+import { GEMINI_API_KEY as API_KEY, GEMINI_API_URL as API_URL } from '../lib/config/gemini';
 
 interface Message {
   text: string;
@@ -22,9 +23,6 @@ export default function ChatBot() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [isTyping, setIsTyping] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
-
-  const API_KEY = 'AIzaSyAl3q3-1eM9Y7zCilpiOBokXcRD4TZadoA';
-  const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
   const sendMessage = async () => {
     if (!inputText.trim()) return;
